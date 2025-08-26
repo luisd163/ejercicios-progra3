@@ -75,7 +75,7 @@ defmodule Util do
       |> String.to_float()
     rescue
       ArgumentError ->
-        "Error, se espera que se ingrese un numero real\n"
+        "Error, se espera que se ingrese un numero real"
         |> mostrar_error()
 
         mensaje

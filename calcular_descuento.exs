@@ -6,7 +6,9 @@ defmodule EntradaDatos do
     porcentaje_descuento = "ingrese el porcentaje(0.0 - 1.0) de descuento: "
     |> Util.ingresar(:real)
 
-    valor_total = calcular_descuento(valor_producto, porcentaje_descuento)
+    descuento = calcular_descuento(valor_producto, porcentaje_descuento)
+
+    valor_total = calcular_valor_final(valor_producto, descuento)
 
     generar_mensaje(valor_total)
     |> Util.mostrar_mensaje()
@@ -18,7 +20,10 @@ defmodule EntradaDatos do
   end
 
   defp calcular_descuento(valor_producto, porcentaje_descuento) do
-    descuento = valor_producto * porcentaje_descuento
+    valor_producto * porcentaje_descuento
+  end
+
+  defp calcular_valor_final(valor_producto, descuento) do
     valor_producto - descuento
   end
 
