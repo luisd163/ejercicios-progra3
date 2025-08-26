@@ -60,9 +60,31 @@ defmodule Util do
     end
   end
 
+  @doc """
+  Permite ingresar un entero
+  # Parámetro
+  -mensaje para el usuario
+  # Ejemplo
+  "Ingrese su edad"
+  |> Util.ingresar(:entero)
+  """
+  def ingresar(mensaje, :real) do
+    try do
+      mensaje
+      |> ingresar(:texto)
+      |> String.to_float()
+    rescue
+      ArgumentError ->
+        "Error, se espera que se ingrese un numero real\n"
+        |> mostrar_error()
+
+        mensaje
+        |> ingresar(:real)
+    end
+  end
+
   def mostrar_error(mensaje) do
     mensaje
     |> IO.puts(:standard_error)
   end
-
 end
