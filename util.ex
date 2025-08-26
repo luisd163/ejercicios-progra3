@@ -24,62 +24,35 @@ defmodule Util do
   end
 
   @doc """
-  Permite ingresar texto
-  # Parámetro
-  -mensaje para el usuario
-  # Ejemplo
-  "Ingrese su nombre"
-  |> Util.ingresar(:texto)
+  Permite ingresar un valor:
+  - :texto  → devuelve un string
+  - :entero → devuelve un entero
+  - :real   → devuelve un número real
   """
+  def ingresar(mensaje, tipo)
+
   def ingresar(mensaje, :texto) do
     mensaje
     |> IO.gets()
     |> String.trim()
   end
 
-  @doc """
-  Permite ingresar un entero
-  # Parámetro
-  -mensaje para el usuario
-  # Ejemplo
-  "Ingrese su edad"
-  |> Util.ingresar(:entero)
-  """
-  def ingresar(mensaje, :entero) do
+  def ingresar(mensaje, :real), do: ingresar(mensaje, &String.to_float/1, :real)
+
+  def ingresar(mensaje, :entero), do: ingresar(mensaje, &String.to_integer/1, :entero)
+
+  defp ingresar(mensaje, parser, tipo_dato) do
     try do
       mensaje
       |> ingresar(:texto)
-      |> String.to_integer()
+      |> parser.()
     rescue
       ArgumentError ->
-        "Error, se espera que se ingrese un numero entero\n"
+        "Error, se espera que ingrese un número #{tipo_dato}\n"
         |> mostrar_error()
 
         mensaje
-        |> ingresar(:entero)
-    end
-  end
-
-  @doc """
-  Permite ingresar un entero
-  # Parámetro
-  -mensaje para el usuario
-  # Ejemplo
-  "Ingrese su edad"
-  |> Util.ingresar(:entero)
-  """
-  def ingresar(mensaje, :real) do
-    try do
-      mensaje
-      |> ingresar(:texto)
-      |> String.to_float()
-    rescue
-      ArgumentError ->
-        "Error, se espera que se ingrese un numero real"
-        |> mostrar_error()
-
-        mensaje
-        |> ingresar(:real)
+        |> ingresar(parser, tipo_dato)
     end
   end
 
